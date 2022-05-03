@@ -5,6 +5,8 @@ pragma solidity ^0.8.7;
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 
+
+//custom errors more gas efficient
 error Raffle__SendMoreToEnterRaffle();
 error Raffle__RaffleNotOpen();
 error Raffle__UpkeepNotNeeded();
@@ -16,8 +18,10 @@ contract Raffle is VRFConsumerBaseV2 {
             Open,
             Calculating
         }
-
+    // Below is a type... s_ for storage
     RaffleState public s_raffleState;
+
+    // immutable is read only.. only initialized once and gas cheap
     uint256 public immutable i_entranceFee;
     uint256 public immutable i_interval;
     address payable[] public s_players;
@@ -40,7 +44,7 @@ contract Raffle is VRFConsumerBaseV2 {
         uint256 entranceFee, 
         uint256 interval, 
         address vrfCoordinatorV2, 
-        bytes32 gasLane,
+        bytes32 gasLane, // keyhash
         uint64 subscriptionId,
         uint32 callbackGasLimit
 
