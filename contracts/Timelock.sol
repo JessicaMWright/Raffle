@@ -126,6 +126,7 @@ contract TimeLock {
         queued[txId] = false;
         //execute tx
         bytes memory data;
+        
         if (bytes (_func).length > 0) {
             data = abi.encodePacked(bytes4(keccak256(bytes(_func))), _data
         );
